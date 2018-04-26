@@ -41,7 +41,7 @@
 
 #ifdef RT_USING_COMPONENTS_INIT
 /*
- * Components Initialization will initialize some driver and components as following 
+ * Components Initialization will initialize some driver and components as following
  * order:
  * rti_start         --> 0
  * BOARD_EXPORT      --> 1
@@ -51,17 +51,17 @@
  * COMPONENT_EXPORT  --> 3
  * FS_EXPORT         --> 4
  * ENV_EXPORT        --> 5
- * APP_EXPORT        --> 6 
- * 
+ * APP_EXPORT        --> 6
+ *
  * rti_end           --> 6.end
  *
- * These automatically initializaiton, the driver or component initial function must 
+ * These automatically initializaiton, the driver or component initial function must
  * be defined with:
  * INIT_BOARD_EXPORT(fn);
  * INIT_DEVICE_EXPORT(fn);
  * ...
  * INIT_APP_EXPORT(fn);
- * etc. 
+ * etc.
  */
 static int rti_start(void)
 {
@@ -155,11 +155,11 @@ int $Sub$$main(void)
 #elif defined(__ICCARM__)
 extern int main(void);
 /* __low_level_init will auto called by IAR cstartup */
-extern void __iar_data_init3( void );
+extern void __iar_data_init3(void);
 int __low_level_init(void)
 {
-	// call IAR table copy function.
-	__iar_data_init3();
+    // call IAR table copy function.
+    __iar_data_init3();
     rt_hw_interrupt_disable();
     rtthread_startup();
     return 0;
@@ -214,6 +214,9 @@ void rt_application_init(void)
     result = rt_thread_init(tid, "main", main_thread_entry, RT_NULL,
                             main_stack, sizeof(main_stack), RT_THREAD_PRIORITY_MAX / 3, 20);
     RT_ASSERT(result == RT_EOK);
+	
+    /* if not define RT_USING_HEAP, using to eliminate the warning */
+    (void)result;
 #endif
 
     rt_thread_startup(tid);
@@ -221,7 +224,7 @@ void rt_application_init(void)
 
 int rtthread_startup(void)
 {
-	rt_hw_interrupt_disable();
+    rt_hw_interrupt_disable();
 
     /* board level initalization
      * NOTE: please initialize heap inside board initialization.
@@ -236,6 +239,11 @@ int rtthread_startup(void)
 
     /* scheduler system initialization */
     rt_system_scheduler_init();
+
+#ifdef RT_USING_SIGNALS
+    /* signal system initialization */
+    rt_system_signal_init();
+#endif
 
     /* create init_thread */
     rt_application_init();

@@ -26,6 +26,8 @@ extern struct callvectors *callvec;
 #define MIN(a, b)           ((a) > (b) ? (b) : (a))
 #define MAX(a, b)           ((a) > (b) ? (a) : (b))
 
+#define DIV_ROUND_UP(n, d)      (((n) + (d) - 1) / (d))
+
 typedef enum
 {
     FALSE=0, 
@@ -58,6 +60,22 @@ unsigned int reg_get_bit(volatile unsigned int *reg, unsigned int bit);
 
 
 /*
+ * 向寄存器中写入8bit(一个字节)数据
+ * @data 待写入的数据
+ * @addr 寄存器地址
+ */
+void reg_write_8(unsigned char data, volatile unsigned char *addr);
+
+
+/*
+ * 从寄存器读出8bit(一个字节)数据
+ * @addr 寄存器地址
+ * @ret 读出的数据
+ */
+unsigned char reg_read_8(volatile unsigned char *addr);
+
+
+/*
  * 向寄存器中写一个32bit的数据
  * @data 待写入的数据
  * @addr 寄存器地址
@@ -78,6 +96,15 @@ unsigned int reg_read_32(volatile unsigned int *addr);
  * @x: the word to search
  */
 int ls1c_ffs(int x);
+
+/*
+ * fls - find last (most-significant) bit set
+ * @x: the word to search
+ *
+ * This is defined the same way as ffs.
+ * Note fls(0) = 0, fls(1) = 1, fls(0x80000000) = 32.
+ */
+int ls1c_fls(int x);
 
 
 #endif
