@@ -220,6 +220,13 @@
 #define RT_LWIP_MSKADDR1 255
 #define RT_LWIP_MSKADDR2 255
 #define RT_LWIP_MSKADDR3 0
+/* ip address of target */
+#define RT_LWIP_IPADDR "192.168.137.30"
+/* gateway address of target */
+#define RT_LWIP_GWADDR  "192.168.137.1"
+/* mask address of target */
+#define RT_LWIP_MSKADDR  "255.255.255.0"
+#define RT_LWIP_REASSEMBLY_FRAG
 // </section>
 
 // </RDTConfigurator>
