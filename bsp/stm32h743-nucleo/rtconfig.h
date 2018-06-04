@@ -220,6 +220,7 @@
 #define RT_LWIP_MSKADDR1 255
 #define RT_LWIP_MSKADDR2 255
 #define RT_LWIP_MSKADDR3 0
+#define RT_LWIP_REASSEMBLY_FRAG
 // </section>
 
 // </RDTConfigurator>
